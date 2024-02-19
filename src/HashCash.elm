@@ -22,23 +22,25 @@ generateCandidate data nonce =
 
 meetsCriteria : Int -> String -> Bool
 meetsCriteria difficulty hash =
-    String.padLeft (difficulty + 1) '0' hash == String.repeat (difficulty + 1) "0"
+    String.startsWith (String.repeat (difficulty + 1) "0") hash
 
-{-| Given the difficulty level, data, and a starting nonce, it searches for a nonce that makes the hash meet the criteria.
+{-| Given the difficulty level and data it searches for a nonce that makes the hash meet the criteria.
 
 Example:
+
     ```
-    findNonce 3 "example data" 0
+    findNonce 3 "example data"
     ```
-    This will search for a nonce that, when combined with the data, produces a hash that starts with 4 leading zeros.
+
+This will search for a nonce that, when combined with the data, produces a hash that starts with 4 leading zeros.
 -}
-findNonce : Int -> String -> Nonce -> Nonce
-findNonce difficulty data nonce =
+findNonce : Int -> String -> Nonce
+findNonce difficulty data =
     let
-        candidate = generateCandidate data nonce
-        hashResult = sha256 candidate
-    in
-    if meetsCriteria difficulty hashResult then
-        nonce
-    else
-        findNonce difficulty data (nonce + 1)
+        go nonce =
+            if meetsCriteria difficulty (sha256 (generateCandidate data nonce)) then
+                nonce
+            else
+                go (nonce + 1)
+    in go 0
+   
