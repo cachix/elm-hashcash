@@ -2,10 +2,6 @@ module HashCash exposing (findNonce)
 
 {-| This module provides functions for generating and validating HashCash values.
 
-# Types
-
-@docs Nonce
-
 # Functions
 
 @docs findNonce
