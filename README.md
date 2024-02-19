@@ -14,10 +14,12 @@ The more leading zeros you want, the longer it takes to find the hash.
 Here's an example how to calculate the nonce and send it over with the data:
 
 ```elm
+import HashCash
+
 let 
   data = "example data"
   difficulty = 3
-  nonce = findNonce difficulty data
+  nonce = HashCash.findNonce difficulty data
 in { nonce = nonce 
    , data = data
    }
