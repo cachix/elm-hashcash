@@ -1,0 +1,3 @@
+{
+  languages.elm.enable = true;
+}
